@@ -14,3 +14,5 @@ class User {
 }
 
 const u1 = new User();
+
+export{}

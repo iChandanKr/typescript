@@ -8,29 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-function Template(template, elementId) {
-    return function (target) {
-        console.log('logging');
-        const user1 = new target();
-        const container = document.getElementById(elementId);
-        if (container) {
-            container.innerHTML = template;
-            const h1 = container.querySelector('h1');
-            if (h1) {
-                h1.innerText = 'hey ' + user1.name + '!';
-            }
-        }
+function Capitalize(target, propertyKey) {
+    // console.log('CAPITALIZE DECORATOR IS CALLED');
+    // console.log('PROPERTY KEY',propertyKey);
+    // console.log("TARGET",target);
+    let value;
+    const getter = function () {
+        return value.charAt(0).toUpperCase() + value.slice(1);
+    };
+    const setter = function (newValue) {
+        value = newValue.toLocaleLowerCase();
+    };
+    return {
+        set: setter,
+        get: getter
     };
 }
-let User = class User {
-    constructor() {
-        this.name = 'Chandan';
-        this.age = 22;
-        console.log('constructor is called!');
+class Product {
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
     }
-};
-User = __decorate([
-    Template('<h1>Dynamic heading...</h1>', 'container'),
-    __metadata("design:paramtypes", [])
-], User);
+}
+__decorate([
+    Capitalize,
+    __metadata("design:type", String)
+], Product.prototype, "name", void 0);
+const p1 = new Product('amsung', 4000);
+console.log(p1);
